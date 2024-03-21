@@ -5,9 +5,9 @@
             void print(string s) {
                 Console.WriteLine(s);
             }
-            /*double comp = 0, bat = 0;
+            double comp = 0, bat = 0, maxComp = 0, maxBat = 0, minComp = double.MaxValue, minBat = double.MaxValue, totBat = 0, totComp = 0;
             const int ITERATIONS = 100;
-            for (int rep = 0; rep < ITERATIONS; rep++) {*/
+            for (int rep = 0; rep < ITERATIONS; rep++) {
                 Carte[] deck = new Carte[52];
                 for (int i = 0; i < 4; i++) {
                     for (int j = 0; j < 13; j++) {
@@ -34,13 +34,13 @@
                     if (bataille) {
                         bataille = false;
                     } else {
-                        //comp++;
+                        comp++;
                         print($"joueur 1 joue {played1.Peek()}, joueur 2 joue {played2.Peek()}");
                         int win = played1.Peek().CompareTo(played2.Peek());
                         if (win == 0) {
                             print("Bataille !");
                             bataille = true;
-                            //bat++;
+                            bat++;
                         } else if (win > 1) {
                             print("Joueur 1 l'emporte.");
                             while (played1.Count > 0) {
@@ -60,6 +60,16 @@
                         }
                     }
                 }
+
+                totComp += comp;
+                totBat += bat;
+                minBat = minBat < bat ? minBat : bat;
+                minComp = minComp < comp ? minComp : comp;
+                maxBat = maxBat > bat ? maxBat : bat;
+                maxComp = maxComp > comp ? maxComp : comp;
+                comp = 0;
+                bat = 0;
+
                 if (deck1.Count > 0) {
                     print("Joueur 1 gagne la partie !");
                 } else {
@@ -67,8 +77,9 @@
                 }
                 print($"{deck1.Count} cartes dans le deck du joueur 1, {played1.Count} cartes en jeu; {deck2.Count} cartes dans le deck du joueur 2, {played2.Count} cartes en jeu.");
                 print($"{52 - deck1.Count - deck2.Count - played1.Count - played2.Count} cartes ont disparu durant la partie.");
-            /*}
-            print($"moyenne de comparaisons : {comp / ITERATIONS}\nmoyenne de batailles : {bat / ITERATIONS}");*/
+            }
+            print($"moyenne de comparaisons : {totComp / ITERATIONS}\nmoyenne de batailles : {totBat / ITERATIONS}");
+            print($"extrèmes en {ITERATIONS} parties : [{minComp}, {maxComp}] comparaisons et [{minBat}, {maxBat}] batailles");
         }
 
 
